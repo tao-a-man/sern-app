@@ -30,3 +30,26 @@ export function readService() {
         }
     });
 }
+export function showEditService(id) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.User.findOne({ where: { id: id } });
+            resolve(data);
+        } catch (err) {
+            reject('Read Failed', err);
+        }
+    });
+}
+export function editService(data) {
+    console.log('data', data);
+    return new Promise(async (resolve, reject) => {
+        try {
+            const updatedRows = await db.User.update(data, {
+                where: { id: data.id },
+            });
+            resolve(updatedRows);
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
