@@ -6,7 +6,7 @@ function hashPassword(password) {
     const hash = bcrypt.hashSync(password, salt);
     return hash;
 }
-function createService(data) {
+export function createService(data) {
     return new Promise(async (resolve, reject) => {
         try {
             const passwordHash = hashPassword(data.password);
@@ -20,5 +20,13 @@ function createService(data) {
         }
     });
 }
-
-export default createService;
+export function readService() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.User.findAll();
+            resolve(data);
+        } catch (err) {
+            reject('Read Failed', err);
+        }
+    });
+}

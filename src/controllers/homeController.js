@@ -1,5 +1,5 @@
 import db from '../models';
-import creareServices from '../services/createServices';
+import { createService, readService } from '../services/createServices';
 function home() {
     return {
         async getHomePage(req, res) {
@@ -10,14 +10,22 @@ function home() {
             return res.render('crud');
         },
         postCreate(req, res) {
-            creareServices(req.body)
+            createService(req.body)
                 .then((respon) => {
-                    console.log(respon);
+                    return res.send('create');
                 })
                 .catch((err) => {
                     console.log('erro', erro);
                 });
-            return res.send('create');
+        },
+        getRead(req, res) {
+            readService()
+                .then((respon) => {
+                    return res.render('crudRead.ejs', { data: respon });
+                })
+                .catch((err) => {
+                    console.log('erro', err);
+                });
         },
     };
 }

@@ -8,6 +8,7 @@ function initWebRoutes(app) {
     router.get('/', homeController.getHomePage);
     router.get('/crud', homeController.getCrud);
     router.post('/crud-create', homeController.postCreate);
+    router.get('/crud-read', homeController.getRead);
 
     return app.use('/', router);
 }
