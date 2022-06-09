@@ -1,6 +1,6 @@
 import db from '../models';
-import { createService, readService } from '../services/createServices';
-function home() {
+import { createService, readService, showEditService, editService } from '../services/createServices';
+const homeController = (function home() {
     return {
         async getHomePage(req, res) {
             const data = await db.User.findAll();
@@ -21,15 +21,32 @@ function home() {
         getRead(req, res) {
             readService()
                 .then((respon) => {
-                    return res.render('crudRead.ejs', { data: respon });
+                    res.render('crudRead.ejs', { data: respon });
                 })
                 .catch((err) => {
                     console.log('erro', err);
                 });
         },
+        getEdit(req, res) {
+            showEditService(req.query.id)
+                .then((respon) => {
+                    res.render('crudEdit.ejs', { data: respon });
+                })
+                .catch((err) => {
+                    console.log('erro', err);
+                });
+        },
+        postEdit(req, res) {
+            editService(req.body)
+                .then((respon) => {
+                    res.redirect('/crud-read');
+                })
+                .catch((err) => {
+                    console.log('erro edit', err);
+                });
+        },
+        getDelete(req, res) {},
     };
-}
-
-const homeController = home();
+})();
 
 export default homeController;
