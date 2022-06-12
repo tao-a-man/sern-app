@@ -1,5 +1,5 @@
 import db from '../models';
-import { createService, readService, showEditService, editService } from '../services/createServices';
+import { createService, readService, showEditService, editService, deleteService } from '../services/createServices';
 const homeController = (function home() {
     return {
         async getHomePage(req, res) {
@@ -45,7 +45,15 @@ const homeController = (function home() {
                     console.log('erro edit', err);
                 });
         },
-        getDelete(req, res) {},
+        getDelete(req, res) {
+            deleteService(req.query.id)
+                .then((respon) => {
+                    res.redirect('/crud-read');
+                })
+                .catch((err) => {
+                    console.log('erro delete', err);
+                });
+        },
     };
 })();
 

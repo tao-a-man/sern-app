@@ -41,13 +41,22 @@ export function showEditService(id) {
     });
 }
 export function editService(data) {
-    console.log('data', data);
     return new Promise(async (resolve, reject) => {
         try {
             const updatedRows = await db.User.update(data, {
                 where: { id: data.id },
             });
             resolve(updatedRows);
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+export function deleteService(id) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.User.destroy({ where: { id } });
+            resolve();
         } catch (err) {
             reject(err);
         }
