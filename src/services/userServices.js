@@ -1,6 +1,12 @@
 import db from '../models';
 import bcrypt from 'bcrypt';
 
+function hashPassword(password) {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    return hash;
+}
+
 const checkEmail = (email) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -61,6 +67,42 @@ export const handleGetUser = (id) => {
             }
         } catch (e) {
             reject(e);
+        }
+    });
+};
+export const handleCreateUser = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const passwordHash = hashPassword(data.password);
+            await db.User.create({
+                ...data,
+                password: passwordHash,
+            });
+            resolve();
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
+export const handleUpdateUser = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.User.update(data, {
+                where: { id: data.id },
+            });
+            resolve();
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
+export const handleDeleteUser = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.User.destroy({ where: { id } });
+            resolve();
+        } catch (err) {
+            reject(err);
         }
     });
 };

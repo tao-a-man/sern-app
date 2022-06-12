@@ -1,4 +1,10 @@
-import { handleLogin, handleGetUser } from '../services/userServices';
+import {
+    handleLogin,
+    handleGetUser,
+    handleCreateUser,
+    handleUpdateUser,
+    handleDeleteUser,
+} from '../services/userServices';
 const userController = (function home() {
     return {
         postLogin(req, res) {
@@ -44,6 +50,36 @@ const userController = (function home() {
                         errMessage: err.errMessage,
                         user: {},
                     });
+                });
+        },
+        postCreateUser(req, res) {
+            const data = req.body;
+            handleCreateUser(data)
+                .then(() => {
+                    res.status(200).json({ errCode: 0, errMessage: 'User created successfully' });
+                })
+                .catch((err) => {
+                    res.status(200).json({ errCode: 1, errMessage: err });
+                });
+        },
+        postUpdateUser(req, res) {
+            const data = req.body;
+            handleUpdateUser(data)
+                .then(() => {
+                    res.status(200).json({ errCode: 0, errMessage: 'User update successfully' });
+                })
+                .catch((err) => {
+                    res.status(200).json({ errCode: 1, errMessage: err });
+                });
+        },
+        postDeleteUser(req, res) {
+            const id = req.body.id;
+            handleDeleteUser(id)
+                .then(() => {
+                    res.status(200).json({ errCode: 0, errMessage: 'User delete successfully' });
+                })
+                .catch((err) => {
+                    res.status(200).json({ errCode: 1, errMessage: err });
                 });
         },
     };
