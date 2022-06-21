@@ -22,8 +22,9 @@ function initWebRoutes(app) {
     router.post('/api/login', userController.postLogin);
     router.post('/api/create-user', userController.postCreateUser);
     router.get('/api/get-user', userController.getUser);
-    router.post('/api/update-user', userController.postUpdateUser);
-    router.post('/api/delete-user', userController.postDeleteUser);
+    router.put('/api/update-user', userController.postUpdateUser);
+    router.delete('/api/delete-user', userController.postDeleteUser);
+    router.get('/api/get-allcode', userController.getAllcode);
 
     return app.use('/', router);
 }

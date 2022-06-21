@@ -4,6 +4,7 @@ import {
     handleCreateUser,
     handleUpdateUser,
     handleDeleteUser,
+    handleGetAllcode,
 } from '../services/userServices';
 const userController = (function home() {
     return {
@@ -44,7 +45,6 @@ const userController = (function home() {
                     });
                 })
                 .catch((err) => {
-                    console.log('err', err);
                     return res.status(200).json({
                         errCode: 1,
                         errMessage: err.errMessage,
@@ -81,6 +81,21 @@ const userController = (function home() {
                 .catch((err) => {
                     res.status(200).json({ errCode: 1, errMessage: err });
                 });
+        },
+        getAllcode(req, res) {
+            const type = req.query.type;
+            console.log('type', type);
+            if (!type) {
+                res.status(200).json({ errCode: 1, errMessage: 'Missing required parameter' });
+            } else {
+                handleGetAllcode(type)
+                    .then((code) => {
+                        res.status(200).json(code);
+                    })
+                    .catch((err) => {
+                        res.status(200).json(err);
+                    });
+            }
         },
     };
 })();

@@ -1,6 +1,6 @@
-import db from '../models';
 import bcrypt from 'bcrypt';
 
+import db from '../models';
 function hashPassword(password) {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
@@ -103,6 +103,20 @@ export const handleDeleteUser = (id) => {
             resolve();
         } catch (err) {
             reject(err);
+        }
+    });
+};
+export const handleGetAllcode = (type) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.Allcode.findAll({ where: { type: type } });
+            if (data.length > 0) {
+                resolve({ errCode: 0, errMessage: 'get data Success', data });
+            } else {
+                resolve({ errCode: 2, errMessage: 'get data Success but data is empty' });
+            }
+        } catch (err) {
+            reject({ errCode: 3, errMessage: 'Sever data based on error' });
         }
     });
 };
